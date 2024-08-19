@@ -1,6 +1,23 @@
 import logo from "./logo.svg";
 import "./App.css";
 
+function Nav(props) {
+  const lis = [];
+  for (let i = 0; i < props.topics.length; i++) {
+    let t = props.topics[i];
+    lis.push(
+      <li key={t.id}>
+        <a href={"/read/" + t.id}>{t.title}</a>
+      </li>
+    );
+  }
+  return (
+    <nav>
+      <ol>{lis}</ol>
+    </nav>
+  );
+}
+
 function Article(e) {
   return (
     <article>
@@ -28,32 +45,6 @@ function Header(props) {
   );
 }
 
-function Nav(props) {
-  const lis = [];
-  for (let i = 0; i < props.topics.length; i++) {
-    let t = props.topics[i];
-    lis.push(
-      <li key={t.id}>
-        <a
-          id={t.id}
-          href={"/read/" + t.id}
-          onClick={(event) => {
-            event.preventDefault();
-            props.onChangeMode(event.target.id);
-          }}
-        >
-          {t.title}
-        </a>
-      </li>
-    );
-  }
-  return (
-    <nav>
-      <ol>{lis}</ol>
-    </nav>
-  );
-}
-
 function App() {
   const topics = [
     { id: 1, title: "html", body: "html is..." },
@@ -64,16 +55,11 @@ function App() {
     <div className="App">
       <Header
         title="REACT"
-        onChangeMode={() => {
+        onChangeMode={function () {
           alert("Header");
         }}
       />
-      <Nav
-        topics={topics}
-        onChangeMode={(id) => {
-          alert(id);
-        }}
-      />
+      <Nav topics={topics} />
       <Article title="Welcome" body="Hello, Web" />
       <Article title="Bye" body="What's up" />
     </div>
